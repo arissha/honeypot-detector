@@ -14,5 +14,4 @@ A modular ethical hacking tool designed to detect and fingerprint potential hone
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/arissha/honeypot-detector.git](https://github.com/arissha/honeypot-detector.git)
-   cd honeypot-detector
+   git clone https://github.com/arissha/honeypot-detector.git
