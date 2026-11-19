@@ -1,16 +1,3 @@
-"""Scoring engine for the honeypot detector (Member D).
-
-Every check written by Member B (network) and Member C (host) returns a list
-of ``Finding`` objects. This module turns those findings into a single
-"honeypot likelihood %" and keeps the reason for every point of the score.
-
-How the score works (noisy-OR model):
-    Each triggered finding has a strength  p = weight * confidence  (0..1).
-    The likelihood is   1 - (1 - p1) * (1 - p2) * ...
-    So independent clues add up, but the score can never pass 100%, and one
-    weak clue alone never gives a high score.
-"""
-
 from dataclasses import dataclass, asdict
 
 CATEGORIES = ("network", "host")
