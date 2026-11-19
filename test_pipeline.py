@@ -1,8 +1,3 @@
-"""Integration tests: Member B + C modules feeding Member D's scoring.
-
-Network tests start tiny fake services on 127.0.0.1 only (random free ports).
-"""
-
 import socket
 import threading
 import unittest
