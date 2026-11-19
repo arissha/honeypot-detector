@@ -1,9 +1,3 @@
-"""Terminal output, report saving and dry-run for the honeypot detector (Member D).
-
-Nothing here touches the network. Reports are written only to a local,
-labelled output directory.
-"""
-
 import json
 import os
 import re
