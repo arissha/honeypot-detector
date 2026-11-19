@@ -60,7 +60,7 @@ def _table(headers, rows):
 
 # ----------------------------------------------------------------- terminal --
 
-def render_report(target, result):
+def render_report(target, result, notes=None):
     """Build the human-readable report text (plain, no colour codes)."""
     lines = [
         f"{TOOL_NAME} v{TOOL_VERSION} - scan report",
@@ -83,13 +83,15 @@ def render_report(target, result):
         lines.append(_table(("Check", "Type", "Points", "Reason"), rows))
     else:
         lines.append("No honeypot indicators were triggered.")
+    if notes:
+        lines += ["", "Notes:"] + [f"- {n}" for n in notes]
     lines += ["", "Heuristic result only - not proof. Verify before acting on it."]
     return "\n".join(lines)
 
 
-def print_report(target, result):
+def print_report(target, result, notes=None):
     """Print the report with colour on the headline numbers."""
-    text = render_report(target, result)
+    text = render_report(target, result, notes)
     colour = _score_colour(result.likelihood_pct)
     for line in text.splitlines():
         if line.startswith(("Honeypot likelihood", "Verdict")):
@@ -106,7 +108,7 @@ def _safe_name(target):
     return re.sub(r"[^A-Za-z0-9._-]", "_", str(target)).strip("._") or "target"
 
 
-def save_report(target, result, findings, output_dir=OUTPUT_DIR):
+def save_report(target, result, findings, output_dir=OUTPUT_DIR, notes=None):
     """Write timestamped JSON + TXT reports. Returns (json_path, txt_path)."""
     os.makedirs(output_dir, exist_ok=True)
     stamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
@@ -119,6 +121,7 @@ def save_report(target, result, findings, output_dir=OUTPUT_DIR):
         "target": str(target),
         "generated_utc": stamp,
         "result": result.to_dict(),
+        "notes": list(notes or []),
         # only structured, non-sensitive indicator data - never raw file contents
         "findings": [
             {k: v for k, v in vars(f).items()} for f in findings
@@ -129,7 +132,7 @@ def save_report(target, result, findings, output_dir=OUTPUT_DIR):
         json.dump(payload, fh, indent=2)
     with open(txt_path, "w", encoding="utf-8") as fh:
         fh.write("# AUTHORISED SECURITY TEST OUTPUT - handle as confidential\n\n")
-        fh.write(render_report(target, result) + "\n")
+        fh.write(render_report(target, result, notes) + "\n")
     return json_path, txt_path
 
 
