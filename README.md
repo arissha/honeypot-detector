@@ -224,7 +224,7 @@ rm stopme
 
 The pipeline checks the stop-file condition and can stop the scan early.
 
-### 6.7 Dry-run output showing planned checks
+### 6.6 Dry-run output showing planned checks
 <img width="635" height="299" alt="image" src="https://github.com/user-attachments/assets/3c050a9a-c39e-4b43-9f3c-2203a9ede8c7" />
 
 ---
