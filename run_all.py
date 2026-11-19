@@ -1,14 +1,3 @@
-"""Temporary end-to-end runner (Member D) for testing B + C + D together.
-
-Member A's CLI (main.py) should replace this. It must show the Computer Crimes
-Act 1997 disclaimer, check the scope and handle the kill switch. The calls
-this file makes are the ones main.py needs:
-
-    result = run_full_scan(target, dry_run=..., stop_file=...)
-    print_report(target, result["score"], result["notes"])
-    save_report(target, result["score"], result["findings"], notes=result["notes"])
-"""
-
 import argparse
 import sys
 
