@@ -64,3 +64,17 @@ The Honeypot Detector operates strictly as a **read-only detection and fingerpri
 * Stop testing immediately when instructed or when an anomaly occurs.
 * Press **`Ctrl+C`** or trigger the application kill switch (`stop_event` / `STOP_SCAN` file) to abort an active scan cleanly.
 * Cancelled scans exit safely without automatically restarting.
+
+
+
+## 🖥️ Host-Based Detection (host_scan.py)
+
+In addition to network fingerprinting, the tool inspects the **local host** for honeypot indicators. It operates entirely **read-only** and never modifies the system. Findings are weighted and passed to the scoring engine.
+
+**Checks performed:**
+
+* **Virtualisation / container:** VM vendor strings (`/sys/class/dmi/id/`), the CPU `hypervisor` flag, known hypervisor MAC prefixes (e.g. `08:00:27` VirtualBox), and Docker signatures (`/.dockerenv`, `/proc/1/cgroup`).
+* **Low-activity indicators:** very short uptime (< 1 hour), unusually few running processes (< 50), and no genuine human user accounts (UID ≥ 1000).
+* **Direct honeypot traces:** default hostnames (e.g. Cowrie's `svr04`), known honeypot directories (`/opt/cowrie`, `/opt/dionaea`, etc.), and running honeypot processes.
+
+Each check returns a result with a `suspicious` flag, supporting evidence, and a weight (5–25), reflecting how strongly it indicates a honeypot.
